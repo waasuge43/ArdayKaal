@@ -3,35 +3,107 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Grade 8 Learning Hub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 8 Learning Hub - Login</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SweetAlert2 for beautiful login errors -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .container {
+            width: 95%;
+            max-width: 400px;
+            margin: 60px auto;
+            text-align: center;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            box-sizing: border-box;
+            width: 100% !important;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.2);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #218838;
+        }
+
+        .signup-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 40px auto;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <i class="fas fa-user-graduate" style="font-size: 50px; color: var(--primary-green);"></i>
+        <i class="fas fa-user-graduate" style="font-size: 60px; color: #28a745; margin-bottom: 15px;"></i>
         <h2>Grade 8 Learning Hub</h2>
-        <p>Geli macluumaadkaaga si aad u sii wadato</p>
+        <p style="color: #666; margin-bottom: 25px;">Geli Username-kaaga si aad u sii wadato</p>
 
         <form id="loginForm">
-            <!-- ID-yada halkan aad u hubi -->
-            <input type="text" id="loginName" placeholder="Magacaaga oo dhameestiran" required
-                style="width: 90%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ddd;">
+            <!-- ID-gan 'loginName' wuxuu aqbalayaa Username-kii Signup-ka -->
+            <input type="text" id="loginName" placeholder="Username" required>
 
-            <input type="password" id="loginPass" placeholder="Geli lambar sireedkaaga" required
-                style="width: 90%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #ddd;">
+            <!-- ID-gan 'loginPass' wuxuu aqbalayaa Password-kii -->
+            <input type="password" id="loginPass" placeholder="Lambar sireedkaaga" required>
 
-            <button type="submit" class="btn-primary">Gal System ka</button>
+            <button type="submit" class="btn-primary">Gal System-ka</button>
         </form>
 
-        <div style="margin-top: 20px;">
-            <a href="signup.html" style="color: #007bff; text-decoration: none; font-size: 14px; font-weight: bold;">
-                Lambar sireed malihi (Is-diwaangeli)
-            </a>
+        <div class="signup-link">
+            <span>Malihi Koonto?</span>
+            <a href="signup.html">Is-diwaangeli halkan</a>
         </div>
     </div>
 
+    <!-- Script-ga wuxuu ku jiraa app.js -->
     <script src="js/app.js"></script>
 </body>
 
