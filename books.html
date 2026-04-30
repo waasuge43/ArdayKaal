@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="so">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maktabadda Buugaagta</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body style=" color: #28a745; display: block; padding: 20px;">
+
+    <div class="header" style="text-align: center; margin-bottom: 40px;">
+        <h1 style="color: #28a745; font-size: 2.5rem; margin-bottom: 5px;">Maktabadda Buugaagta</h1>
+        <p style="color: #bbb;">Dooro buugga aad rabto inaad akhrisato</p>
+    </div>
+
+    <div class="books-container"
+        style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: 0 auto;">
+
+        <!-- Tarbiyo -->
+        <div class="book-card" onclick="openBook('tarbiyo.pdf', 'Buugga Tarbiyada')"
+            style="background: #fff; padding: 25px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s;">
+            <i class="fas fa-mosque" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
+            <h3 style="margin: 0;">Tarbiyo</h3>
+        </div>
+
+        <!-- Carabi -->
+        <div class="book-card" onclick="openBook('carabi.pdf', 'Buugga Carabiga')"
+            style="background: #1e1e1e; padding: 25px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s;">
+            <i class="fas fa-language" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
+            <h3 style="margin: 0;">Carabi</h3>
+        </div>
+
+        <!-- Somali -->
+        <div class="book-card" onclick="openBook('somali.pdf', 'Buugga Af-Soomaaliga')"
+            style="background: #1e1e1e; padding: 25px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s;">
+            <i class="fas fa-pen-nib" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
+            <h3 style="margin: 0;">Somali</h3>
+        </div>
+
+        <!-- English -->
+        <div class="book-card" onclick="openBook('english.pdf', 'Buugga Ingiriiska')"
+            style="background: #1e1e1e; padding: 25px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid #333; transition: 0.3s;">
+            <i class="fas fa-atlas" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
+            <h3 style="margin: 0;">English</h3>
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="window.location.href='dashboard.html'" class="btn-primary"
+            style="width: auto; padding: 10px 30px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            Dib u laabo
+        </button>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

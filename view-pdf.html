@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="so">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akhriska Buugga</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body style="background-color: #121212; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh;">
+
+    <div class="pdf-toolbar"
+        style="background: #1e1e1e; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333;">
+        <button onclick="window.history.back()" class="btn-primary" style="width: auto; padding: 8px 15px;">
+            <i class="fas fa-arrow-left"></i> Dib
+        </button>
+
+        <h3 id="pdfTitle" style="color: white; margin: 0;">Magaca Buugga</h3>
+
+        <a id="downloadBtn" href="#" download class="btn-primary"
+            style="width: auto; padding: 8px 15px; background-color: #28a745; text-decoration: none;">
+            <i class="fas fa-download"></i> Download
+        </a>
+    </div>
+
+    <div style="flex-grow: 1; width: 100%;">
+        <iframe id="pdfFrame" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+    </div>
+
+    <script>
+        // Markuu boggu furmo, xogta ka soo qaad URL-ka
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookFile = urlParams.get('file');
+            const bookName = urlParams.get('name');
+
+            if (bookFile) {
+                const path = 'assets/pdfs/' + bookFile;
+                document.getElementById('pdfFrame').src = path;
+                document.getElementById('pdfTitle').innerText = bookName;
+                document.getElementById('downloadBtn').href = path;
+            }
+        };
+    </script>
+</body>
+
+</html>
