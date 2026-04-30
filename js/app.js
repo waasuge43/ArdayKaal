@@ -110,7 +110,7 @@ function showCategory(type) {
     if (type === 'pdfs') {
         window.location.href = 'books.html';
     } else if (type === 'q-a') {
-        Swal.fire('Dhawaan!', "Qaybta Su'aalaha iyo Jawaabaha waa soo socotaa.", 'info');
+        window.location.href = 'q-a.html';
     } else if (type === 'exams') {
         Swal.fire('Imtixaanka Dowladda', "Qaybtan waa la diyaarinayaa.", 'warning');
     } else {

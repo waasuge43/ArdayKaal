@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="so">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A - Grade 8 Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #28a745;
+            --bg-light: #f4f7f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .qa-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 45px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
+        /* Accordion Style */
+        .qa-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .qa-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .qa-question:hover {
+            background-color: #f9f9f9;
+        }
+
+        .qa-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fff;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .qa-item.active .qa-answer {
+            padding: 10px 20px 20px 20px;
+            max-height: 500px;
+            border-top: 1px solid #eee;
+        }
+
+        .qa-item.active .fa-chevron-down {
+            transform: rotate(180deg);
+            transition: 0.3s;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="qa-container">
+        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Dib u laabo</a>
+
+        <div class="header">
+            <h2><i class="fas fa-question-circle"></i> Su'aalaha iyo Jawaabaha (Q&A)</h2>
+            <p>Halkan ka raadso su'aalaha ugu muhiimsan ee maadooyinka Grade 8.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" onkeyup="searchQA()" placeholder="Raadi su'aal (Tusaale: Biology)...">
+        </div>
+
+        <!-- QA Items -->
+        <div id="qaList">
+            <!-- Su'aasha 1aad -->
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleQA(this)">
+                    Waa maxay unug (Cell)?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="qa-answer">
+                    Unuggu waa halbeegga dhismaha iyo shaqada ee dhammaan noolaha. Waa qaybta ugu yar ee nool ee qaban
+                    karta dhammaan howlaha nolosha.
+                </div>
+            </div>
+
+            <!-- Su'aasha 2aad -->
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleQA(this)">
+                    Goormay dhacday Dagaalkii Labaad ee Adduunka?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="qa-answer">
+                    Dagaalkii Labaad ee Adduunka wuxuu bilaabmay sanadkii 1939-kii wuxuuna dhammaaday sanadkii 1945-kii.
+                </div>
+            </div>
+
+            <!-- Su'aasha 3aad -->
+            <div class="qa-item">
+                <div class="qa-question" onclick="toggleQA(this)">
+                    Waa maxay shaqada wadnaha?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="qa-answer">
+                    Shaqada ugu weyn ee wadnaha waa inuu dhiigga u xubiyo (pump) dhammaan qaybaha kala duwan ee jirka si
+                    ay u helaan Ogsajiin iyo nafaqo.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function-ka lagu furo su'aasha
+        function toggleQA(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
+
+        // Function-ka raadinta (Search)
+        function searchQA() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let items = document.getElementsByClassName('qa-item');
+
+            for (let i = 0; i < items.length; i++) {
+                let question = items[i].querySelector('.qa-question').innerText.toLowerCase();
+                if (question.includes(input)) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
