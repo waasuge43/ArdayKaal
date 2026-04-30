@@ -4,109 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maktabadda Buugaagta</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Maadooyinka - Grade Hub</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* CSS dheeraad ah si uu Responsive u noqdo */
-        .books-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-width: 500px;
+        :root {
+            --theme-purple: #764ba2;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: var(--bg-light);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-section {
+            margin-bottom: 30px;
+        }
+
+        .header-section h1 {
+            color: var(--theme-purple);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
             margin: 0 auto;
-            width: 100%;
         }
 
         .book-card {
-            background: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             cursor: pointer;
-            border: 1px solid #28a745;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: 0.3s;
+            border-bottom: 4px solid var(--theme-purple);
         }
 
         .book-card:hover {
             transform: translateY(-5px);
         }
 
-        .btn-back {
-            width: 38%;
-            min-width: 200px;
-            /* Si uusan badhanku aad ugu yaraan shaashadda yar */
-            padding: 10px 30px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
+        .book-card i {
+            font-size: 40px;
+            color: var(--theme-purple);
+            margin-bottom: 15px;
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem ! economies;
-                /* Yarayn h1 marka mobile la joogo */
-            }
-
-            .books-container {
-                padding: 0 10px;
-                /* Boos yar dhinacyada ka tag */
-            }
-
-            .btn-back {
-                width: 98%;
-                /* Ballaari badhanka marka mobile la joogo */
-            }
+        .btn-back {
+            margin-top: 30px;
+            padding: 10px 25px;
+            background: var(--theme-purple);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
         }
     </style>
 </head>
 
-<body style="color: #28a745; display: block; padding: 20px; margin: 0; font-family: sans-serif;">
+<body>
 
-    <div class="header" style="text-align: center; margin-bottom: 40px;">
-        <h1 style="color: #28a745; margin-bottom: 5px;">Maktabadda Buugaagta</h1>
-        <p style="color: #1e1e1e;">Dooro buugga aad rabto inaad akhrisato</p>
+    <div class="header-section">
+        <h1 id="gradeTitle">Maadooyinka</h1>
+        <p>Dooro maadada aad rabto inaad akhriso buuggeeda</p>
     </div>
 
-    <div class="books-container">
+    <!-- Halkan waxaa ku soo dhacaya maadooyinka iskiis (Dynamic) -->
+    <div class="books-grid" id="subjectsContainer"></div>
 
-        <!-- Tarbiyo -->
-        <div class="book-card" onclick="openBook('tarbiyo.pdf', 'Buugga Tarbiyada')">
-            <i class="fas fa-mosque" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
-            <h3 style="margin: 0;">Tarbiyo</h3>
-        </div>
+    <button onclick="window.location.href='dashboard.html'" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Dib u laabo Dashboard
+    </button>
 
-        <!-- Carabi -->
-        <div class="book-card" onclick="openBook('carabi.pdf', 'Buugga Carabiga')">
-            <i class="fas fa-language" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
-            <h3 style="margin: 0;">Carabi</h3>
-        </div>
+    <script>
+        // 1. Hel fasalka uu ardaygu soo doortay
+        const selectedGrade = localStorage.getItem('selectedGrade') || "8"; // Haddii kale Default waa 8
+        document.getElementById('gradeTitle').innerText = `Maadooyinka Fasalka ${selectedGrade}`;
 
-        <!-- Somali -->
-        <div class="book-card" onclick="openBook('somali.pdf', 'Buugga Af-Soomaaliga')">
-            <i class="fas fa-pen-nib" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
-            <h3 style="margin: 0;">Somali</h3>
-        </div>
+        // 2. Database-ka Maadooyinka (Tusaale ahaan)
+        const subjectsData = {
+            "6": [
+                { name: "Tarbiyo", icon: "fa-mosque", file: "g6_tarbiyo.pdf" },
+                { name: "Social Science", icon: "fa-users", file: "g6_social.pdf" },
+                { name: "Science", icon: "fa-flask", file: "g6_science.pdf" },
+                { name: "Xisaab", icon: "fas fa-calculator", file: "g6_xisaab" },
+                { name: "English", icon: "fas fa-language", file: "g6_english" },
+                { name: "Soomaali", icon: "fas fa-pen-nib", file: "g6_soomaali.pdf" },
+                { name: "Carabi", icon: "fas fa-language", file: "g6_carabi.pdf" }
+            ],
+            "8": [
+                { name: "Chemistry", icon: "fa-flask", file: "g8_chem.pdf" },
+                { name: "Physics", icon: "fa-bolt", file: "g8_phys.pdf" },
+                { name: "Math", icon: "fa-calculator", file: "g8_math.pdf" }
+            ],
+            "12": [
+                { name: "Tarbiyo", icon: "fa-mosque", file: "g6_tarbiyo.pdf" },
+                { name: "Carabi", icon: "fas fa-language", file: "g6_carabi.pdf" },
+                { name: "Biology", icon: "fa-dna", file: "g12_bio.pdf" },
+                { name: "Physics", icon: "fa-atom", file: "g12_phys.pdf" },
+                { name: "Chemistry", icon: "fa-vial", file: "g12_chem.pdf" },
+                { name: "Math", icon: "fa-calculator", file: "g12_math.pdf" },
+                { name: "English", icon: "fa-book", file: "g12_eng.pdf" },
+                { name: "Soomaali", icon: "fas fa-pen-nib", file: "g12_soomaali.pdf" }
+            ]
+            // Waxaad ku dari kartaa fasal kasta halkan...
+        };
 
-        <!-- English -->
-        <div class="book-card" onclick="openBook('english.pdf', 'Buugga Ingiriiska')">
-            <i class="fas fa-atlas" style="color: #28a745; margin-bottom: 10px; font-size: 24px;"></i>
-            <h3 style="margin: 0;">English</h3>
-        </div>
+        // 3. Logic-ga soo bandhigista
+        function loadSubjects() {
+            const container = document.getElementById('subjectsContainer');
+            const subjects = subjectsData[selectedGrade] || []; // Hel maadooyinka fasalkaas
 
-    </div>
+            if (subjects.length === 0) {
+                container.innerHTML = `<p>Wali laguma darin buugaagta fasalkan.</p>`;
+                return;
+            }
 
-    <div style="text-align: center; margin-top: 30px;">
-        <button onclick="window.location.href='dashboard.html'" class="btn-back">
-            <i class="fas fa-arrow-left"></i> Dib u laabo
-        </button>
-    </div>
+            subjects.forEach(sub => {
+                const card = `
+                    <div class="book-card" onclick="openBook('${sub.file}', '${sub.name}')">
+                        <i class="fas ${sub.icon}"></i>
+                        <h3>${sub.name}</h3>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
 
-    <script src="js/app.js"></script>
+        function openBook(file, name) {
+            // Halkan u dir bogga PDF viewer-ka
+            window.location.href = `view-pdf.html?file=${file}&name=${name}`;
+        }
+
+        // Daari shaqada marka boggu kaco
+        window.onload = loadSubjects;
+    </script>
 </body>
 
 </html>

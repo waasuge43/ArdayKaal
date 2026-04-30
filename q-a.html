@@ -5,184 +5,396 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q&A - Grade 8 Hub</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
+            --qa-purple: #764ba2;
+            --bg-light: #f8f9fa;
             --primary-green: #28a745;
-            --bg-light: #f4f7f6;
+            --sidebar-width: 260px;
         }
 
+        /* Xallinta is-dhex-galka (Override style.css) */
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-light);
             margin: 0;
+            display: flex !important;
+            /* Waxay u baahan tahay flex si sidebar-ka u shaqeeyo */
+            align-items: stretch !important;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR STYLE (Laga keenay Dashboard) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: #2c3e50;
+            height: 100vh;
+            color: white;
+            position: fixed;
+            left: 0;
+            top: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
             padding: 20px;
+            background: #1a252f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .qa-container {
-            max-width: 800px;
-            margin: 0 auto;
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .header {
+        .sidebar-menu li {
+            padding: 15px 20px;
+            border-bottom: 1px solid #34495e;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu li:hover {
+            background: var(--primary-green);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        /* Qaybta Xiriirka (Social Media) */
+        .sidebar-social {
+            margin-top: auto;
+            background: #1a252f;
+            padding: 20px 10px;
+            text-align: center;
+            border-top: 1px solid #34495e;
+        }
+
+        .sidebar-social p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .sidebar-social a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-social a:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon-whatsapp {
+            color: #25D366;
+        }
+
+        .icon-facebook {
+            color: #1877F2;
+        }
+
+        .icon-tiktok {
+            color: #ffffff;
+        }
+
+        /* --- MAIN CONTENT & MOBILE NAV --- */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: block !important;
+            /* Si uusan u squish-garoobin */
+            box-sizing: border-box;
+        }
+
+        .top-nav {
+            display: none;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            justify-content: space-between;
+            align-items: center;
+            margin: -20px -20px 20px -20px;
+        }
+
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .close-sidebar {
+            display: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* --- Q&A STYLES (Koodhkaagii Asalka Ahaa) --- */
+        .header-section {
             text-align: center;
             margin-bottom: 30px;
         }
 
-        /* Search Box */
-        .search-box {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 15px 45px;
-            border-radius: 30px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-        }
-
-        /* Accordion Style */
-        .qa-item {
-            background: white;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: 0.3s;
-        }
-
-        .qa-question {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .qa-question:hover {
-            background-color: #f9f9f9;
-        }
-
-        .qa-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: #fff;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .qa-item.active .qa-answer {
-            padding: 10px 20px 20px 20px;
-            max-height: 500px;
-            border-top: 1px solid #eee;
-        }
-
-        .qa-item.active .fa-chevron-down {
-            transform: rotate(180deg);
-            transition: 0.3s;
+        .header-section h1 {
+            color: var(--qa-purple);
         }
 
         .back-btn {
             display: inline-block;
             margin-bottom: 20px;
             text-decoration: none;
-            color: var(--primary-green);
+            color: #666;
             font-weight: bold;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .qa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .qa-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            cursor: pointer;
+            border-left: 5px solid var(--qa-purple);
+        }
+
+        .qa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .qa-icon {
+            font-size: 35px;
+            color: var(--qa-purple);
+            background: #f0ebf8;
+            padding: 15px;
+            border-radius: 12px;
+            min-width: 65px;
+            text-align: center;
+        }
+
+        .qa-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .qa-info p {
+            margin: 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* --- RESPONSIVE DESIGN FOR SMALL SCREENS --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: calc(-1 * var(--sidebar-width));
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .top-nav {
+                display: flex;
+            }
+
+            .overlay.active {
+                display: block;
+            }
+
+            .close-sidebar {
+                display: block !important;
+            }
+
+            .qa-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Hal saf ayuu noqonayaa Mobile-ka */
+            .back-btn {
+                display: none;
+            }
+
+            /* Mobile-ka hamburger menu ayaa la isticmaalayaa */
         }
     </style>
 </head>
 
 <body>
 
-    <div class="qa-container">
-        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Dib u laabo</a>
+    <!-- Overlay for mobile -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-        <div class="header">
-            <h2><i class="fas fa-question-circle"></i> Su'aalaha iyo Jawaabaha (Q&A)</h2>
-            <p>Halkan ka raadso su'aalaha ugu muhiimsan ee maadooyinka Grade 8.</p>
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-user-graduate"></i> Manhajka Qaranka</h3>
+            <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
+        </div>
+        <ul class="sidebar-menu">
+            <li onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> Dashboard</li>
+            <li onclick="window.location.href='books.html'"><i class="fas fa-book"></i> Buugaagta PDF</li>
+            <li style="background: var(--qa-purple);"><i class="fas fa-comments"></i> Su'aalo &Jawaabo</li>
+            <li onclick="window.location.href='exams.html'"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
+            <!-- <hr> -->
+            <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i>
+                Kabax (Logout)</li>
+        </ul>
+
+        <!-- Qaybta Xiriirka (Social Media Contacts) -->
+        <div class="sidebar-social">
+            <p>Ila soo Xiriir</p>
+            <!-- Beddel # meelahaas linkiyadaada rasmiga ah geli -->
+            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank" title="WhatsApp"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a href="#" class="icon-facebook" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="icon-tiktok" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+    </nav>
+
+    <!-- Main Content Box -->
+    <div class="main-content">
+        <!-- Top Nav for Mobile -->
+        <div class="top-nav">
+            <div class="menu-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <h4 style="margin:0; color: var(--qa-purple);"><i class="fas fa-question-circle"></i> Q&A Hub</h4>
+            <div style="width: 24px;"></div> <!-- Spacer -->
         </div>
 
-        <!-- Search Bar -->
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" onkeyup="searchQA()" placeholder="Raadi su'aal (Tusaale: Biology)...">
+        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Dib u noqo Dashboard</a>
+
+        <div class="header-section">
+            <h1><i class="fas fa-question-circle"></i> Su'aalaha iyo Jawaabaha</h1>
+            <p>Dooro maadada aad rabto inaad akhriso su'aalaheeda</p>
         </div>
 
-        <!-- QA Items -->
-        <div id="qaList">
-            <!-- Su'aasha 1aad -->
-            <div class="qa-item">
-                <div class="qa-question" onclick="toggleQA(this)">
-                    Waa maxay unug (Cell)?
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="qa-answer">
-                    Unuggu waa halbeegga dhismaha iyo shaqada ee dhammaan noolaha. Waa qaybta ugu yar ee nool ee qaban
-                    karta dhammaan howlaha nolosha.
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Raadi maado (Tusaale: English)..." onkeyup="filterQA()">
+        </div>
+
+        <div class="qa-grid" id="qaList">
+            <!-- Maadada 1 -->
+            <div class="qa-card" onclick="openBook('islamic_qa.pdf', 'Islamic Q&A')">
+                <div class="qa-icon"><i class="fas fa-mosque"></i></div>
+                <div class="qa-info">
+                    <h3>Tarbiyo Islaami</h3>
+                    <p>Su'aalo iyo Jawaabo dhammaystiran</p>
                 </div>
             </div>
 
-            <!-- Su'aasha 2aad -->
-            <div class="qa-item">
-                <div class="qa-question" onclick="toggleQA(this)">
-                    Goormay dhacday Dagaalkii Labaad ee Adduunka?
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-                <div class="qa-answer">
-                    Dagaalkii Labaad ee Adduunka wuxuu bilaabmay sanadkii 1939-kii wuxuuna dhammaaday sanadkii 1945-kii.
+            <!-- Maadada 2 -->
+            <div class="qa-card" onclick="openBook('math_qa.pdf', 'Math Q&A')">
+                <div class="qa-icon"><i class="fas fa-calculator"></i></div>
+                <div class="qa-info">
+                    <h3>Xisaab (Math)</h3>
+                    <p>Su'aalaha Cutubyada 1-8</p>
                 </div>
             </div>
 
-            <!-- Su'aasha 3aad -->
-            <div class="qa-item">
-                <div class="qa-question" onclick="toggleQA(this)">
-                    Waa maxay shaqada wadnaha?
-                    <i class="fas fa-chevron-down"></i>
+            <!-- Maadada 3 -->
+            <div class="qa-card" onclick="openBook('science_qa.pdf', 'Science Q&A')">
+                <div class="qa-icon"><i class="fas fa-flask"></i></div>
+                <div class="qa-info">
+                    <h3>Saynis (Science)</h3>
+                    <p>Su'aalaha muhiimka ah ee sanadka</p>
                 </div>
-                <div class="qa-answer">
-                    Shaqada ugu weyn ee wadnaha waa inuu dhiigga u xubiyo (pump) dhammaan qaybaha kala duwan ee jirka si
-                    ay u helaan Ogsajiin iyo nafaqo.
+            </div>
+
+            <!-- Maadada 4 -->
+            <div class="qa-card" onclick="openBook('english_qa.pdf', 'English Q&A')">
+                <div class="qa-icon"><i class="fas fa-language"></i></div>
+                <div class="qa-info">
+                    <h3>English Language</h3>
+                    <p>Grammar and Vocabulary Questions</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Function-ka lagu furo su'aasha
-        function toggleQA(element) {
-            const item = element.parentElement;
-            item.classList.toggle('active');
+        // Fur/Xir Sidebar-ka Mobile-ka
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
         }
 
         // Function-ka raadinta (Search)
-        function searchQA() {
+        function filterQA() {
             let input = document.getElementById('searchInput').value.toLowerCase();
-            let items = document.getElementsByClassName('qa-item');
+            let cards = document.getElementsByClassName('qa-card');
 
-            for (let i = 0; i < items.length; i++) {
-                let question = items[i].querySelector('.qa-question').innerText.toLowerCase();
-                if (question.includes(input)) {
-                    items[i].style.display = "";
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                if (title.includes(input)) {
+                    cards[i].style.display = "";
                 } else {
-                    items[i].style.display = "none";
+                    cards[i].style.display = "none";
                 }
             }
+        }
+
+        // Isticmaal function-ka openBook ee ku jira app.js (ama kan)
+        function openBook(fileName, displayName) {
+            const file = encodeURIComponent(fileName);
+            const name = encodeURIComponent(displayName);
+            window.location.href = `view-pdf.html?file=${file}&name=${name}`;
         }
     </script>
 </body>

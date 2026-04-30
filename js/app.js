@@ -91,7 +91,19 @@ if (loginForm) {
 // --- 3. DASHBOARD: Soo bandhigista Magaca & Sawirka ---
 document.addEventListener('DOMContentLoaded', function () {
     const nameDisplay = document.getElementById('userNameDisplay');
-    const profileDisplay = document.getElementById('userProfileImage'); // Haddii aad haysato ID sawirka ah
+    const profileDisplay = document.getElementById('userProfileImage');
+    const selectedGrade = localStorage.getItem('selectedGrade');
+    const gradeDisplay = document.getElementById('gradeDisplay');
+
+    if (gradeDisplay && selectedGrade) {
+        gradeDisplay.innerText = "Fasalka " + selectedGrade;
+    }
+
+    // Haddii uusan ardaygu fasal dooran, dib ugu celi bogga fasallada
+    if (!selectedGrade && window.location.pathname.includes('dashboard.html')) {
+        window.location.href = 'classes.html';
+    }
+    // Haddii aad haysato ID sawirka ah
 
     if (nameDisplay) {
         const savedName = localStorage.getItem('studentName');

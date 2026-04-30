@@ -21,6 +21,51 @@
             display: flex;
         }
 
+
+        /* ------------------- */
+        /* Qaybta Xiriirka (Social Media) */
+        .sidebar-social {
+            margin-top: auto;
+            background: #1a252f;
+            padding: 20px 10px;
+            text-align: center;
+            border-top: 1px solid #34495e;
+        }
+
+        .sidebar-social p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .sidebar-social a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-social a:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon-whatsapp {
+            color: #25D366;
+        }
+
+        .icon-facebook {
+            color: #1877F2;
+        }
+
+        .icon-tiktok {
+            color: #ffffff;
+        }
+
+        /* ---------------------- */
+
+
+
+
         /* --- SIDEBAR STYLE --- */
         .sidebar {
             width: var(--sidebar-width);
@@ -172,17 +217,28 @@
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3><i class="fas fa-user-graduate"></i> National Books</h3>
+            <h3><i class="fas fa-user-graduate"></i> Manhajka Qaranka</h3>
             <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
         </div>
         <ul class="sidebar-menu">
             <li onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> Dashboard</li>
             <li onclick="showCategory('pdfs')"><i class="fas fa-book"></i> Buugaagta PDF</li>
+            <li onclick="showCategory('q-a')"><i class="fas fa-comments"></i> Su'aalo &Jawaabo</li>
             <li onclick="showCategory('exams')"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
-            <li onclick="showCategory('q-a')"><i class="fas fa-comments"></i> Q&A Section</li>
-            <li style="margin-top: auto; background: #c0392b;" onclick="logout()"><i class="fas fa-sign-out-alt"></i>
+
+            <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i>
                 Kabax (Logout)</li>
         </ul>
+
+        <!-- Qaybta Xiriirka (Social Media Contacts) -->
+        <div class="sidebar-social">
+            <p>Ila soo Xiriir</p>
+            <!-- Beddel # meelahaas linkiyadaada rasmiga ah geli -->
+            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank" title="WhatsApp"><i
+                    class="fab fa-whatsapp"></i></a>
+            <a href="#" class="icon-facebook" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="icon-tiktok" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
     </nav>
 
     <!-- Main Content -->
@@ -201,6 +257,9 @@
             <!-- ID-gan 'userProfileImage' wuxuu ka imaanayaa app.js -->
             <img id="userProfileImage" src="107621.jpg" alt="Profile">
             <h3 id="userNameDisplay">Arday</h3>
+
+            <!-- Halkan ayaan ku kordhinnay fasalka -->
+            <h4 id="gradeDisplay" style="color: var(--theme-purple); margin-top: -10px;">Fasalka --</h4>
             <p style="color: #666;">Ardayda Soomaaliyeed</p>
         </div>
 
