@@ -10,13 +10,11 @@
         :root {
             --theme-purple: #764ba2;
             --theme-orange: #e67e22;
-            /* Midab gaar u ah imtixaanka */
             --bg-light: #f8f9fa;
             --primary-green: #28a745;
             --sidebar-width: 260px;
         }
 
-        /* Xallinta is-dhex-galka & Flexbox-ka Sidebar-ka */
         body {
             font-family: 'Segoe UI', Tahoma, sans-serif;
             background-color: var(--bg-light);
@@ -108,7 +106,7 @@
             color: #ffffff;
         }
 
-        /* --- MAIN CONTENT & MOBILE NAV --- */
+        /* --- MAIN CONTENT --- */
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
@@ -153,7 +151,6 @@
             cursor: pointer;
         }
 
-        /* --- EXAMS STYLE --- */
         .header-section {
             margin-bottom: 30px;
         }
@@ -187,7 +184,6 @@
             font-size: 35px;
             color: var(--theme-orange);
             background: #fff3e0;
-            /* Midab khafiif ah oo orange ah */
             padding: 15px;
             border-radius: 12px;
             min-width: 65px;
@@ -196,7 +192,6 @@
 
         .exam-info {
             text-align: left;
-            /* Qoraalka dhanka bidix ayuu xigaa */
         }
 
         .exam-info h3 {
@@ -227,7 +222,6 @@
             display: inline-block;
         }
 
-        /* --- RESPONSIVE DESIGN FOR SMALL SCREENS --- */
         @media (max-width: 768px) {
             .sidebar {
                 left: calc(-1 * var(--sidebar-width));
@@ -262,10 +256,8 @@
 
 <body>
 
-    <!-- Overlay for mobile -->
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3><i class="fas fa-user-graduate"></i> Manhajka Qaranka</h3>
@@ -278,109 +270,133 @@
             <li style="background: var(--theme-orange);"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
             <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Kabax (Logout)</li>
         </ul>
-
-        <!-- Qaybta Xiriirka (Social Media Contacts) -->
         <div class="sidebar-social">
             <p>Ila soo Xiriir</p>
-            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank" title="WhatsApp"><i
+            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank"><i
                     class="fab fa-whatsapp"></i></a>
-            <a href="#" class="icon-facebook" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="icon-tiktok" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="icon-facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="icon-tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
         </div>
     </nav>
 
-    <!-- Main Content Box -->
     <div class="main-content">
-        <!-- Top Nav for Mobile -->
         <div class="top-nav">
-            <div class="menu-btn" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
             <h4 style="margin:0; color: var(--theme-orange);"><i class="fas fa-pen-alt"></i> Imtixaannada</h4>
-            <div style="width: 24px;"></div> <!-- Spacer -->
+            <div style="width: 24px;"></div>
         </div>
 
         <div class="header-section">
             <h1 id="gradeTitle">Imtixaannadii Hore</h1>
-            <p>Daalaco imtixaanaadkii dowladda ee sanadihii lasoo dhaafay si aad isugu diyaariso.</p>
+            <p id="gradeDesc">Dooro sanadka aad rabto inaad aragto imtixaankiisa.</p>
         </div>
 
-        <!-- Halkan waxaa ku soo dhacaya imtixaannada iskiis (Dynamic) -->
         <div class="exams-grid" id="examsContainer"></div>
 
-        <button onclick="window.location.href='dashboard.html'" class="btn-back">
+        <button onclick="window.location.href='dashboard.html'" class="btn-back" id="backBtn">
             <i class="fas fa-arrow-left"></i> Dib u laabo Dashboard
         </button>
     </div>
 
     <script>
-        // Fur/Xir Sidebar-ka Mobile-ka
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        // 1. Hel fasalka uu ardaygu soo doortay
-        const selectedGrade = localStorage.getItem('selectedGrade') || "8";
-        document.getElementById('gradeTitle').innerHTML = `<i class="fas fa-file-signature"></i> Imtixaannada Fasalka ${selectedGrade}`;
+        // List-ka sanadaha oo dhan
+        const availableYears = [
+            { year: "2024-2025", desc: "Su'aalihii ugu dambeeyay ee dowladda", icon: "fa-award" },
+            { year: "2023-2024", desc: "Imtixaankii Shahaadiga ee sanadkii hore", icon: "fa-calendar-check" },
+            { year: "2022-2023", desc: "Kaydka imtixaannada dowladda", icon: "fa-file-pdf" },
+            { year: "2021-2022", desc: "Kaydka imtixaannada dowladda", icon: "fa-history" },
+            { year: "2020-2021", desc: "Kaydka imtixaannada dowladda", icon: "fa-history" }
+        ];
 
-        // 2. Database-ka Imtixaannada (Dynamic Logic)
-        const examsData = {
-            "6": [
-                { year: "2024-2025", title: "Imtixaanka Dowladda (Curriculum Cusub)", icon: "fa-award", file: "g8_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
-                { year: "2023-2024", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_23_24.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2022-2023", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_22_23.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2021-2022", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_21_22.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2020-2021", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_20_21.pdf", desc: "Dhammaan maadooyinka" }
-            ],
-            "8": [
-                { year: "2024-2025", title: "Imtixaanka Dowladda (Curriculum Cusub)", icon: "fa-award", file: "g8_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
-                { year: "2023-2024", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_23_24.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2022-2023", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_22_23.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2021-2022", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_21_22.pdf", desc: "Dhammaan maadooyinka" },
-                { year: "2020-2021", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_20_21.pdf", desc: "Dhammaan maadooyinka" }
-            ],
-            "12": [
-                { year: "2024-2025", title: "Shahaadiga Dugsiga Sare", icon: "fa-award", file: "g12_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
-                { year: "2023-2024", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_23_24.pdf", desc: "Saynis & Atis (Dhammaan)" },
-                { year: "2022-2023", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_22_23.pdf", desc: "Saynis & Atis (Dhammaan)" },
-                { year: "2021-2022", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_21_22.pdf", desc: "Saynis & Atis (Dhammaan)" },
-                { year: "2020-2021", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_20_21.pdf", desc: "Saynis & Atis (Dhammaan)" }
-            ]
-        };
-
-        // 3. Logic-ga soo bandhigista
-        function loadExams() {
+        // 1. Soo bandhig Sanadaha marka hore (Laba tixgelin fasal ma jirto)
+        function loadYears() {
             const container = document.getElementById('examsContainer');
-            // Haddii fasalka la doortay uusan ahayn 8 ama 12, waxaan tusaynaa farriin, ama waxaad ku dari kartaa imtixaano dugsi.
-            const exams = examsData[selectedGrade] || [];
+            document.getElementById('gradeTitle').innerHTML = `Imtixaannadii Hore`;
+            document.getElementById('gradeDesc').innerText = `Dooro sanadka aad rabto inaad aragto imtixaankiisa.`;
+            document.getElementById('backBtn').onclick = () => window.location.href = 'dashboard.html';
 
-            if (exams.length === 0) {
-                container.innerHTML = `<p style="grid-column: 1 / -1; color: #666; padding: 20px;">Wali laguma soo darin imtixaannada fasalkan. Fadlan dib u eeg fasallada 8aad ama 12aad.</p>`;
-                return;
-            }
-
-            exams.forEach(exam => {
-                const card = `
-                    <div class="exam-card" onclick="openBook('${exam.file}', 'Imtixaan ${exam.year}')">
-                        <div class="exam-icon"><i class="fas ${exam.icon}"></i></div>
+            container.innerHTML = "";
+            availableYears.forEach(item => {
+                container.innerHTML += `
+                    <div class="exam-card" onclick="showGradeSelection('${item.year}')">
+                        <div class="exam-icon"><i class="fas ${item.icon}"></i></div>
                         <div class="exam-info">
-                            <h3>Sanadka ${exam.year}</h3>
-                            <p>${exam.title} - ${exam.desc}</p>
+                            <h3>Sanadka ${item.year}</h3>
+                            <p>${item.desc}</p>
                         </div>
                     </div>
                 `;
-                container.innerHTML += card;
             });
         }
 
-        // 4. Function-ka fura imtixaanka (Wuxuu isticmaalayaa isla PDF Viewer-kii hore)
+        // 2. Dooro Fasalka (8 ama 12)
+        function showGradeSelection(year) {
+            const container = document.getElementById('examsContainer');
+            document.getElementById('gradeTitle').innerHTML = `<i class="fas fa-layer-group"></i> Fasallada (${year})`;
+            document.getElementById('gradeDesc').innerText = `Dooro fasalka aad rabto inaad imtixaankiisa aragto.`;
+
+            // Badhanka dib u laabashada hadda wuxuu ku celinayaa sanadaha
+            document.getElementById('backBtn').onclick = loadYears;
+
+            container.innerHTML = `
+                <div class="exam-card" onclick="showStateSelection('${year}')">
+                    <div class="exam-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="exam-info">
+                        <h3>Fasalka 8aad</h3>
+                        <p>Imtixaanka Shahaadiga ee Gobollada - ${year}</p>
+                    </div>
+                </div>
+                <div class="exam-card" onclick="openBook('g12_exam_${year.replace("-", "_")}.pdf', 'Imtixaan Grade 12 ${year}')">
+                    <div class="exam-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="exam-info">
+                        <h3>Fasalka 12aad</h3>
+                        <p>Imtixaanka Shahaadiga ee Qaranka - ${year}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. Dooro Gobolka (Kaliya Fasalka 8aad)
+        function showStateSelection(year) {
+            const container = document.getElementById('examsContainer');
+            document.getElementById('gradeTitle').innerHTML = `<i class="fas fa-map-marked-alt"></i> Gobollada (${year})`;
+            document.getElementById('gradeDesc').innerText = `Dooro dowlad goboleedka aad rabto imtixaankiisa fasalka 8aad.`;
+
+            document.getElementById('backBtn').onclick = () => showGradeSelection(year);
+
+            const states = [
+                { name: "Banaadir", suffix: "banadir" },
+                { name: "Hirshabelle", suffix: "hirshabelle" },
+                { name: "Galmudug", suffix: "galmudug" },
+                { name: "Jubbaland", suffix: "jubbaland" }
+            ];
+
+            container.innerHTML = "";
+            states.forEach(state => {
+                // Magaca faylka wuxuu noqonayaa tusaale: banadir_g8_2024_2025.pdf
+                const fileName = `${state.suffix}_g8_${year.replace("-", "_")}.pdf`;
+                container.innerHTML += `
+                    <div class="exam-card" onclick="openBook('${fileName}', 'G8 ${state.name} ${year}')">
+                        <div class="exam-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="exam-info">
+                            <h3>${state.name}</h3>
+                            <p>Riix si aad u aragto imtixaanka ${state.name} (${year})</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
         function openBook(file, name) {
             window.location.href = `view-pdf.html?file=${encodeURIComponent(file)}&name=${encodeURIComponent(name)}`;
         }
 
-        // Daari shaqada marka boggu kaco
-        window.onload = loadExams;
+        window.onload = loadYears;
     </script>
 </body>
 
