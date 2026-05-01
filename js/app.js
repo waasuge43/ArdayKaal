@@ -124,7 +124,7 @@ function showCategory(type) {
     } else if (type === 'q-a') {
         window.location.href = 'q-a.html';
     } else if (type === 'exams') {
-        Swal.fire('Imtixaanka Dowladda', "Qaybtan waa la diyaarinayaa.", 'warning');
+        window.location.href = 'exams.html';
     } else {
         Swal.fire('Ogeysiis', "Qaybtan dhawaan ayaan soo kordhinaynaa!", 'info');
     }

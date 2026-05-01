@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grade 8 Dashboard</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Grade Hub - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-green: #28a745;
             --sidebar-width: 260px;
             --bg-light: #f4f7f6;
+            --theme-purple: #764ba2;
+            --dark-blue: #2c3e50;
         }
 
         body {
@@ -21,55 +22,10 @@
             display: flex;
         }
 
-
-        /* ------------------- */
-        /* Qaybta Xiriirka (Social Media) */
-        .sidebar-social {
-            margin-top: auto;
-            background: #1a252f;
-            padding: 20px 10px;
-            text-align: center;
-            border-top: 1px solid #34495e;
-        }
-
-        .sidebar-social p {
-            margin: 0 0 15px 0;
-            font-size: 14px;
-            color: #aaa;
-        }
-
-        .sidebar-social a {
-            display: inline-block;
-            margin: 0 10px;
-            font-size: 24px;
-            transition: transform 0.3s ease;
-        }
-
-        .sidebar-social a:hover {
-            transform: translateY(-3px);
-        }
-
-        .icon-whatsapp {
-            color: #25D366;
-        }
-
-        .icon-facebook {
-            color: #1877F2;
-        }
-
-        .icon-tiktok {
-            color: #ffffff;
-        }
-
-        /* ---------------------- */
-
-
-
-
         /* --- SIDEBAR STYLE --- */
         .sidebar {
             width: var(--sidebar-width);
-            background: #2c3e50;
+            background: var(--dark-blue);
             height: 100vh;
             color: white;
             position: fixed;
@@ -111,73 +67,192 @@
             width: 20px;
         }
 
-        /* --- MAIN CONTENT STYLE --- */
+        /* Social Media Sidebar */
+        .sidebar-social {
+            margin-top: auto;
+            background: #1a252f;
+            padding: 20px 10px;
+            text-align: center;
+            border-top: 1px solid #34495e;
+        }
+
+        .sidebar-social p {
+            margin: 0 0 10px 0;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .sidebar-social a {
+            display: inline-block;
+            margin: 0 8px;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .icon-whatsapp {
+            color: #25D366;
+        }
+
+        .icon-facebook {
+            color: #1877F2;
+        }
+
+        .icon-tiktok {
+            color: #ffffff;
+        }
+
+        /* --- MAIN CONTENT --- */
         .main-content {
             flex: 1;
             margin-left: var(--sidebar-width);
-            padding: 20px;
+            padding: 30px;
             transition: all 0.3s ease;
+            max-width: 1200px;
         }
 
-        /* Top Navigation Bar */
         .top-nav {
             display: none;
-            /* Kaliya Mobile-ka ayaa laga arki doonaa */
             background: white;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             justify-content: space-between;
             align-items: center;
-            margin: -20px -20px 20px -20px;
+            margin: -30px -30px 30px -30px;
         }
 
-        .menu-btn {
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--dark-gray);
+        /* Profile & Grade Update Section */
+        .profile-header {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 40px;
         }
 
-        /* Profile Style */
         .profile-header img {
-            width: 100px;
-            height: 100px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            border: 3px solid var(--primary-green);
+            border: 4px solid var(--primary-green);
             object-fit: cover;
+            margin-bottom: 15px;
         }
 
-        /* Grid for Cards */
+        .grade-badge {
+            background: #f0ebf8;
+            color: var(--theme-purple);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .edit-grade-btn {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #777;
+            margin-left: 10px;
+        }
+
+        /* Grid for Category Cards */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
 
         .card-link {
-            transition: transform 0.3s ease;
+            padding: 25px;
+            border-radius: 18px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
         }
 
         .card-link:hover {
             transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+        .card-link i {
+            font-size: 45px;
+            opacity: 0.8;
         }
 
-        /* --- RESPONSIVE DESIGN --- */
+        .card-link h3 {
+            margin: 0 0 5px 0;
+            font-size: 20px;
+        }
+
+        .card-link p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Contribution Card (WhatsApp) */
+        .contribution-card {
+            background: #fff;
+            border: 2px dashed #25D366;
+            border-radius: 18px;
+            padding: 25px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .contrib-text {
+            text-align: left;
+        }
+
+        .contrib-text h4 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+
+        .contrib-text p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background: #1ebd56;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             .sidebar {
-                left: calc(-1 * var(--sidebar-width));
+                left: -100%;
             }
 
             .sidebar.active {
@@ -186,6 +261,7 @@
 
             .main-content {
                 margin-left: 0;
+                padding: 20px;
             }
 
             .top-nav {
@@ -196,94 +272,123 @@
                 display: block;
             }
 
-            .close-sidebar {
-                display: block !important;
+            .card-link {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contribution-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .contrib-text {
+                text-align: center;
             }
         }
 
-        .close-sidebar {
+        .overlay {
             display: none;
-            font-size: 20px;
-            cursor: pointer;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- Overlay for mobile -->
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h3><i class="fas fa-user-graduate"></i> Manhajka Qaranka</h3>
-            <i class="fas fa-times close-sidebar" onclick="toggleSidebar()"></i>
+            <h3><i class="fas fa-user-graduate"></i> Manhajka</h3>
+            <i class="fas fa-times" style="cursor:pointer" onclick="toggleSidebar()"></i>
         </div>
         <ul class="sidebar-menu">
             <li onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> Dashboard</li>
-            <li onclick="showCategory('pdfs')"><i class="fas fa-book"></i> Buugaagta PDF</li>
-            <li onclick="showCategory('q-a')"><i class="fas fa-comments"></i> Su'aalo &Jawaabo</li>
-            <li onclick="showCategory('exams')"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
-
-            <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i>
-                Kabax (Logout)</li>
+            <li onclick="window.location.href='books.html'"><i class="fas fa-book"></i> Buugaagta PDF</li>
+            <li onclick="window.location.href='q-a.html'"><i class="fas fa-comments"></i> Su'aalo & Jawaabo</li>
+            <li onclick="window.location.href='exams.html'"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
+            <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Kabax</li>
         </ul>
 
-        <!-- Qaybta Xiriirka (Social Media Contacts) -->
         <div class="sidebar-social">
             <p>Ila soo Xiriir</p>
-            <!-- Beddel # meelahaas linkiyadaada rasmiga ah geli -->
-            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank" title="WhatsApp"><i
+            <a href="https://wa.me/+252618903797" class="icon-whatsapp" target="_blank"><i
                     class="fab fa-whatsapp"></i></a>
-            <a href="#" class="icon-facebook" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="icon-tiktok" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="#" class="icon-facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="icon-tiktok"><i class="fab fa-tiktok"></i></a>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="main-content">
-        <!-- Top Nav for Mobile -->
         <div class="top-nav">
-            <div class="menu-btn" onclick="toggleSidebar()">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
             <h4 style="margin:0;">Manhajka Qaranka</h4>
-            <div style="width: 24px;"></div> <!-- Spacer -->
+            <div style="width: 24px;"></div>
         </div>
 
-        <!-- Profile Section -->
-        <div class="profile-header" style="text-align: center; margin-bottom: 30px;">
-            <!-- ID-gan 'userProfileImage' wuxuu ka imaanayaa app.js -->
+        <!-- Profile Section with Grade Update -->
+        <div class="profile-header">
             <img id="userProfileImage" src="107621.jpg" alt="Profile">
-            <h3 id="userNameDisplay">Arday</h3>
-
-            <!-- Halkan ayaan ku kordhinnay fasalka -->
-            <h4 id="gradeDisplay" style="color: var(--theme-purple); margin-top: -10px;">Fasalka --</h4>
-            <p style="color: #666;">Ardayda Soomaaliyeed</p>
+            <h3 id="userNameDisplay" style="margin: 5px 0;">Arday Soomaaliyeed</h3>
+            <div>
+                <span class="grade-badge" id="gradeDisplay">Fasalka 8aad</span>
+                <button class="edit-grade-btn" onclick="changeGrade()">
+                    <i class="fas fa-edit"></i> Beddel
+                </button>
+            </div>
         </div>
 
-        <h2 style="text-align: center;">Learning Materials</h2>
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Adeegyada Ardayga</h2>
 
-        <!-- Grid-ka Maadooyinka -->
         <div class="menu-grid">
-            <div class="card-link" onclick="showCategory('pdfs')"
-                style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 40px 20px; border-radius: 15px; text-align: center; cursor: pointer;">
-                <i class="fas fa-book-open" style="font-size: 40px; margin-bottom: 15px;"></i>
-                <h3>MAADOOYINKA PDF</h3>
+            <!-- PDF Card -->
+            <div class="card-link" onclick="window.location.href='books.html'"
+                style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <i class="fas fa-book-open"></i>
+                <div class="card-info">
+                    <h3>MAADOOYINKA PDF</h3>
+                    <p>Halkan ka hel dhammaan buugaagta manhajka ee PDF ah adigoo u dhex galaya maado kasta.</p>
+                </div>
             </div>
 
-            <div class="card-link" onclick="showCategory('q-a')"
-                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 40px 20px; border-radius: 15px; text-align: center; cursor: pointer;">
-                <i class="fas fa-question-circle" style="font-size: 40px; margin-bottom: 15px;"></i>
-                <h3>MAADOOYINKA SU'AALO IYO JAWAABO</h3>
+            <!-- Q&A Card -->
+            <div class="card-link" onclick="window.location.href='q-a.html'"
+                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="fas fa-question-circle"></i>
+                <div class="card-info">
+                    <h3>SU'AALO IYO JAWAABO</h3>
+                    <p>Baro su'aalihii ugu muhiimsanaa ee laga soo saaray casharrada iyo jawaabahooda saxda ah.</p>
+                </div>
             </div>
 
-            <div class="card-link" onclick="showCategory('exams')"
-                style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 40px 20px; border-radius: 15px; text-align: center; cursor: pointer;">
-                <i class="fas fa-file-alt" style="font-size: 40px; margin-bottom: 15px;"></i>
-                <h3>IMTIXAANKA DOWLADDA</h3>
+            <!-- Exams Card -->
+            <div class="card-link" onclick="window.location.href='exams.html'"
+                style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <i class="fas fa-file-signature"></i>
+                <div class="card-info">
+                    <h3>IMTIXAANKA DOWLADDA</h3>
+                    <p>Eeg imtixaannadii qaranka ee sanadihii hore (2020-2025) si aad ugu celceliso.</p>
+                </div>
             </div>
+        </div>
+
+        <!-- Contribution WhatsApp Card -->
+        <div class="contribution-card">
+            <div class="contrib-text">
+                <h4>Ma haysaa Buugaag PDF ah?</h4>
+                <p>Naga caawi ballaarinta maktabadda, noo soo dir buugaag ama imtixaanno muhiim ah.</p>
+            </div>
+            <a href="https://wa.me/+252618903797?text=Asc, waxaan rabaa inaan kula wadaago buug/pdf muhiim ah"
+                class="whatsapp-btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Soo dir hadda
+            </a>
         </div>
     </div>
 
@@ -293,12 +398,27 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
+        // Shaqada beddelista fasalka
+        function changeGrade() {
+            let newGrade = prompt("Fasalkee rabtaa inaad u beddelato? (Tusaale: 6, 8, 12)");
+            if (newGrade) {
+                localStorage.setItem('selectedGrade', newGrade);
+                document.getElementById('gradeDisplay').innerText = "Fasalka " + newGrade + "aad";
+                alert("Fasalka waa la beddelay! Hadda waxaad arki doontaa xogta Fasalka " + newGrade);
+                location.reload(); // Cusboonaysii bogga si xogta kale u dhalato
+            }
+        }
+
+        // Soo rar fasalka markii boggu kaco
+        window.onload = function () {
+            let currentGrade = localStorage.getItem('selectedGrade') || "8";
+            document.getElementById('gradeDisplay').innerText = "Fasalka " + currentGrade + "aad";
+        }
+
         function logout() {
-            // Tirtir xogta session-ka haddii aad rabto
             window.location.href = 'index.html';
         }
     </script>
-    <script src="js/app.js"></script>
 </body>
 
 </html>

@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maadooyinka - Grade Hub</title>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <title>Imtixaannada - Manhajka</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --theme-purple: #764ba2;
+            --theme-orange: #e67e22;
+            /* Midab gaar u ah imtixaanka */
             --bg-light: #f8f9fa;
             --primary-green: #28a745;
             --sidebar-width: 260px;
@@ -152,16 +153,16 @@
             cursor: pointer;
         }
 
-        /* --- BOOKS STYLE --- */
+        /* --- EXAMS STYLE --- */
         .header-section {
             margin-bottom: 30px;
         }
 
         .header-section h1 {
-            color: var(--theme-purple);
+            color: var(--theme-orange);
         }
 
-        .books-grid {
+        .exams-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
@@ -169,7 +170,7 @@
             margin: 0 auto;
         }
 
-        .book-card {
+        .exam-card {
             background: white;
             border-radius: 15px;
             padding: 10px;
@@ -179,37 +180,38 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             transition: 0.3s;
             cursor: pointer;
-            border-left: 5px solid var(--theme-purple);
+            border-left: 5px solid var(--theme-orange);
         }
 
-        .book-icon {
+        .exam-icon {
             font-size: 35px;
-            color: var(--theme-purple);
-            background: #f0ebf8;
+            color: var(--theme-orange);
+            background: #fff3e0;
+            /* Midab khafiif ah oo orange ah */
             padding: 15px;
             border-radius: 12px;
             min-width: 65px;
             text-align: center;
         }
 
-        /* Halkan ayaa lagu saxay in qoraalku dhinaca bidix noqdo */
-        .book-info {
+        .exam-info {
             text-align: left;
+            /* Qoraalka dhanka bidix ayuu xigaa */
         }
 
-        .book-info h3 {
+        .exam-info h3 {
             margin: 0 0 5px 0;
             font-size: 18px;
             color: #333;
         }
 
-        .book-info p {
+        .exam-info p {
             margin: 0;
             color: #777;
             font-size: 14px;
         }
 
-        .book-card:hover {
+        .exam-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
@@ -251,7 +253,7 @@
                 display: block !important;
             }
 
-            .books-grid {
+            .exams-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -271,9 +273,9 @@
         </div>
         <ul class="sidebar-menu">
             <li onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> Dashboard</li>
-            <li style="background: var(--theme-purple);"><i class="fas fa-book"></i> Buugaagta PDF</li>
+            <li onclick="window.location.href='books.html'"><i class="fas fa-book"></i> Buugaagta PDF</li>
             <li onclick="window.location.href='q-a.html'"><i class="fas fa-comments"></i> Su'aalo & Jawaabo</li>
-            <li onclick="window.location.href='exams.html'"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
+            <li style="background: var(--theme-orange);"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
             <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Kabax (Logout)</li>
         </ul>
 
@@ -294,17 +296,17 @@
             <div class="menu-btn" onclick="toggleSidebar()">
                 <i class="fas fa-bars"></i>
             </div>
-            <h4 style="margin:0; color: var(--theme-purple);"><i class="fas fa-book"></i> Buugaagta PDF</h4>
+            <h4 style="margin:0; color: var(--theme-orange);"><i class="fas fa-pen-alt"></i> Imtixaannada</h4>
             <div style="width: 24px;"></div> <!-- Spacer -->
         </div>
 
         <div class="header-section">
-            <h1 id="gradeTitle">Maadooyinka</h1>
-            <p>Dooro maadada aad rabto inaad akhriso buuggeeda</p>
+            <h1 id="gradeTitle">Imtixaannadii Hore</h1>
+            <p>Daalaco imtixaanaadkii dowladda ee sanadihii lasoo dhaafay si aad isugu diyaariso.</p>
         </div>
 
-        <!-- Halkan waxaa ku soo dhacaya maadooyinka iskiis (Dynamic) -->
-        <div class="books-grid" id="subjectsContainer"></div>
+        <!-- Halkan waxaa ku soo dhacaya imtixaannada iskiis (Dynamic) -->
+        <div class="exams-grid" id="examsContainer"></div>
 
         <button onclick="window.location.href='dashboard.html'" class="btn-back">
             <i class="fas fa-arrow-left"></i> Dib u laabo Dashboard
@@ -319,60 +321,52 @@
         }
 
         // 1. Hel fasalka uu ardaygu soo doortay
-        const selectedGrade = localStorage.getItem('selectedGrade') || "8"; // Haddii kale Default waa 8
-        document.getElementById('gradeTitle').innerText = `Maadooyinka Fasalka ${selectedGrade}`;
+        const selectedGrade = localStorage.getItem('selectedGrade') || "8";
+        document.getElementById('gradeTitle').innerHTML = `<i class="fas fa-file-signature"></i> Imtixaannada Fasalka ${selectedGrade}`;
 
-        // 2. Database-ka Maadooyinka (Tusaale ahaan)
-        const subjectsData = {
+        // 2. Database-ka Imtixaannada (Dynamic Logic)
+        const examsData = {
             "6": [
-                { name: "Tarbiyo", icon: "fa-mosque", file: "g6_tarbiyo.pdf" },
-                { name: "Social Science", icon: "fa-users", file: "g6_social.pdf" },
-                { name: "Science", icon: "fa-flask", file: "g6_science.pdf" },
-                { name: "Xisaab", icon: "fa-calculator", file: "g6_xisaab" },
-                { name: "English", icon: "fa-language", file: "g6_english" },
-                { name: "Soomaali", icon: "fa-pen-nib", file: "g6_soomaali.pdf" },
-                { name: "Carabi", icon: "fa-language", file: "g6_carabi.pdf" }
+                { year: "2024-2025", title: "Imtixaanka Dowladda (Curriculum Cusub)", icon: "fa-award", file: "g8_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
+                { year: "2023-2024", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_23_24.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2022-2023", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_22_23.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2021-2022", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_21_22.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2020-2021", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_20_21.pdf", desc: "Dhammaan maadooyinka" }
             ],
             "8": [
-                { name: "Chemistry", icon: "fa-flask", file: "g8_chem.pdf" },
-                { name: "Physics", icon: "fa-bolt", file: "g8_phys.pdf" },
-                { name: "Math", icon: "fa-calculator", file: "g8_math.pdf" }
+                { year: "2024-2025", title: "Imtixaanka Dowladda (Curriculum Cusub)", icon: "fa-award", file: "g8_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
+                { year: "2023-2024", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_23_24.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2022-2023", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_22_23.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2021-2022", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_21_22.pdf", desc: "Dhammaan maadooyinka" },
+                { year: "2020-2021", title: "Imtixaanka Dowladda", icon: "fa-file-pdf", file: "g8_exam_20_21.pdf", desc: "Dhammaan maadooyinka" }
             ],
             "12": [
-                { name: "Tarbiyo", icon: "fa-mosque", file: "g6_tarbiyo.pdf", desc: "Buugga Tarbiyaha" },
-                { name: "Carabi", icon: "fa-language", file: "g6_carabi.pdf", desc: "Buugga Tarbiyaha" },
-                { name: "Biology", icon: "fa-dna", file: "g12_bio.pdf", desc: "Buugga Baayoolojiga" },
-                { name: "Physics", icon: "fa-atom", file: "g12_phys.pdf" },
-                { name: "Chemistry", icon: "fa-vial", file: "g12_chem.pdf" },
-                { name: "Math", icon: "fa-calculator", file: "g12_math.pdf" },
-                { name: "English", icon: "fa-book", file: "g12_eng.pdf" },
-                { name: "Soomaali", icon: "fa-pen-nib", file: "g12_soomaali.pdf" },
-                { name: "Technology", icon: "fa-microchip", file: "g12_soomaali.pdf" },
-                { name: "Business", icon: "fa-chart-line", file: "g12_business.pdf" }
+                { year: "2024-2025", title: "Shahaadiga Dugsiga Sare", icon: "fa-award", file: "g12_exam_24_25.pdf", desc: "Su'aalihii ugu dambeeyay ee dowladda" },
+                { year: "2023-2024", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_23_24.pdf", desc: "Saynis & Atis (Dhammaan)" },
+                { year: "2022-2023", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_22_23.pdf", desc: "Saynis & Atis (Dhammaan)" },
+                { year: "2021-2022", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_21_22.pdf", desc: "Saynis & Atis (Dhammaan)" },
+                { year: "2020-2021", title: "Shahaadiga Dugsiga Sare", icon: "fa-file-pdf", file: "g12_exam_20_21.pdf", desc: "Saynis & Atis (Dhammaan)" }
             ]
-            // Waxaad ku dari kartaa fasal kasta halkan...
         };
 
         // 3. Logic-ga soo bandhigista
-        function loadSubjects() {
-            const container = document.getElementById('subjectsContainer');
-            const subjects = subjectsData[selectedGrade] || []; // Hel maadooyinka fasalkaas
+        function loadExams() {
+            const container = document.getElementById('examsContainer');
+            // Haddii fasalka la doortay uusan ahayn 8 ama 12, waxaan tusaynaa farriin, ama waxaad ku dari kartaa imtixaano dugsi.
+            const exams = examsData[selectedGrade] || [];
 
-            if (subjects.length === 0) {
-                container.innerHTML = `<p>Wali laguma darin buugaagta fasalkan.</p>`;
+            if (exams.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1 / -1; color: #666; padding: 20px;">Wali laguma soo darin imtixaannada fasalkan. Fadlan dib u eeg fasallada 8aad ama 12aad.</p>`;
                 return;
             }
 
-            subjects.forEach(sub => {
-                // Hubin in desc uu leeyahay maadada, haddii kale booska waa madanaanayaa
-                const descText = sub.desc ? `<p>${sub.desc}</p>` : `<p>Riix si aad u akhriso</p>`;
-
+            exams.forEach(exam => {
                 const card = `
-                    <div class="book-card" onclick="openBook('${sub.file}', '${sub.name}')">
-                        <div class="book-icon"><i class="fas ${sub.icon}"></i></div>
-                        <div class="book-info">
-                            <h3>${sub.name}</h3>
-                            ${descText}
+                    <div class="exam-card" onclick="openBook('${exam.file}', 'Imtixaan ${exam.year}')">
+                        <div class="exam-icon"><i class="fas ${exam.icon}"></i></div>
+                        <div class="exam-info">
+                            <h3>Sanadka ${exam.year}</h3>
+                            <p>${exam.title} - ${exam.desc}</p>
                         </div>
                     </div>
                 `;
@@ -380,13 +374,13 @@
             });
         }
 
+        // 4. Function-ka fura imtixaanka (Wuxuu isticmaalayaa isla PDF Viewer-kii hore)
         function openBook(file, name) {
-            // Halkan u dir bogga PDF viewer-ka
-            window.location.href = `view-pdf.html?file=${file}&name=${name}`;
+            window.location.href = `view-pdf.html?file=${encodeURIComponent(file)}&name=${encodeURIComponent(name)}`;
         }
 
         // Daari shaqada marka boggu kaco
-        window.onload = loadSubjects;
+        window.onload = loadExams;
     </script>
 </body>
 
