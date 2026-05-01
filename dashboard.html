@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Hub - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         :root {
             --primary-green: #28a745;
@@ -333,10 +336,11 @@
             <div style="width: 24px;"></div>
         </div>
 
-        <!-- Profile Section with Grade Update -->
+        <!-- Profile Section with Dynamic Name and Image -->
         <div class="profile-header">
+            <!-- Sawirka Profile-ka (Haddii user-ku sawir soo galiyo waa laga akhrinayaa storage) -->
             <img id="userProfileImage" src="107621.jpg" alt="Profile">
-            <h3 id="userNameDisplay" style="margin: 5px 0;">Arday Soomaaliyeed</h3>
+            <h3 id="userNameDisplay" style="margin: 5px 0;">Soo-dhawow: Arday</h3>
             <div>
                 <span class="grade-badge" id="gradeDisplay">Fasalka 8aad</span>
                 <button class="edit-grade-btn" onclick="changeGrade()">
@@ -348,7 +352,6 @@
         <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Adeegyada Ardayga</h2>
 
         <div class="menu-grid">
-            <!-- PDF Card -->
             <div class="card-link" onclick="window.location.href='books.html'"
                 style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
                 <i class="fas fa-book-open"></i>
@@ -358,7 +361,6 @@
                 </div>
             </div>
 
-            <!-- Q&A Card -->
             <div class="card-link" onclick="window.location.href='q-a.html'"
                 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
                 <i class="fas fa-question-circle"></i>
@@ -368,7 +370,6 @@
                 </div>
             </div>
 
-            <!-- Exams Card -->
             <div class="card-link" onclick="window.location.href='exams.html'"
                 style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
                 <i class="fas fa-file-signature"></i>
@@ -379,13 +380,12 @@
             </div>
         </div>
 
-        <!-- Contribution WhatsApp Card -->
         <div class="contribution-card">
             <div class="contrib-text">
                 <h4>Ma haysaa Buugaag PDF ah?</h4>
                 <p>Naga caawi ballaarinta maktabadda, noo soo dir buugaag ama imtixaanno muhiim ah.</p>
             </div>
-            <a href="https://wa.me/+252618903797?text=Asc, waxaan rabaa inaan kula wadaago buug/pdf muhiim ah"
+            <a href="https://wa.me/+252618903797?text=*Asc,* waxaan rabaa inaan kula wadaago buug/pdf muhiim ah."
                 class="whatsapp-btn" target="_blank">
                 <i class="fab fa-whatsapp"></i> Soo dir hadda
             </a>
@@ -398,19 +398,53 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        // Shaqada beddelista fasalka
+        // Shaqada beddelista fasalka iyadoo la isticmaalayo SweetAlert2
         function changeGrade() {
-            let newGrade = prompt("Fasalkee rabtaa inaad u beddelato? (Tusaale: 6, 8, 12)");
-            if (newGrade) {
-                localStorage.setItem('selectedGrade', newGrade);
-                document.getElementById('gradeDisplay').innerText = "Fasalka " + newGrade + "aad";
-                alert("Fasalka waa la beddelay! Hadda waxaad arki doontaa xogta Fasalka " + newGrade);
-                location.reload(); // Cusboonaysii bogga si xogta kale u dhalato
-            }
+            Swal.fire({
+                title: 'Dooro Fasalkaaga',
+                input: 'select',
+                inputOptions: {
+                    '6': 'Fasalka 6aad',
+                    '7': 'Fasalka 7aad',
+                    '8': 'Fasalka 8aad',
+                    '12': 'Fasalka 12aad'
+                },
+                inputPlaceholder: 'Dooro fasalka',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonText: 'Ka noqo',
+                confirmButtonText: 'Beddel'
+            }).then((result) => {
+                if (result.value) {
+                    let newGrade = result.value;
+                    localStorage.setItem('selectedGrade', newGrade);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Waa lagu guuleystay!',
+                        text: 'Fasalkaaga waxaa loo beddelay ' + newGrade,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            });
         }
 
-        // Soo rar fasalka markii boggu kaco
+        // Soo rar macluumaadka markii boggu kaco
         window.onload = function () {
+            // 1. Magaca User-ka
+            let userName = localStorage.getItem('fullname') || "Arday Soomaaliyeed";
+            document.getElementById('userNameDisplay').innerText = "Soo-dhawow: " + userName;
+
+            // 2. Sawirka Profile-ka (Haddii uu jiro mid la kaydiyay)
+            let userImg = localStorage.getItem('userProfileImg');
+            if (userImg) {
+                document.getElementById('userProfileImage').src = userImg;
+            }
+
+            // 3. Fasalka hadda jira
             let currentGrade = localStorage.getItem('selectedGrade') || "8";
             document.getElementById('gradeDisplay').innerText = "Fasalka " + currentGrade + "aad";
         }
