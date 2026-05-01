@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade Hub - Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- SweetAlert2 CDN -->
+    <!-- SweetAlert2 Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
         :root {
             --primary-green: #28a745;
@@ -336,9 +335,9 @@
             <div style="width: 24px;"></div>
         </div>
 
-        <!-- Profile Section with Dynamic Name and Image -->
+        <!-- Profile Section with Grade Update -->
         <div class="profile-header">
-            <!-- Sawirka Profile-ka (Haddii user-ku sawir soo galiyo waa laga akhrinayaa storage) -->
+            <!-- Sawirka wuxuu ka imaanayaa JS ama default -->
             <img id="userProfileImage" src="107621.jpg" alt="Profile">
             <h3 id="userNameDisplay" style="margin: 5px 0;">Soo-dhawow: Arday</h3>
             <div>
@@ -399,52 +398,52 @@
         }
 
         // Shaqada beddelista fasalka iyadoo la isticmaalayo SweetAlert2
-        function changeGrade() {
-            Swal.fire({
-                title: 'Dooro Fasalkaaga',
+        async function changeGrade() {
+            const { value: newGrade } = await Swal.fire({
+                title: 'Beddel Fasalka',
                 input: 'select',
                 inputOptions: {
                     '6': 'Fasalka 6aad',
                     '7': 'Fasalka 7aad',
                     '8': 'Fasalka 8aad',
+                    '9': 'Fasalka 9aad',
+                    '10': 'Fasalka 10aad',
+                    '11': 'Fasalka 11aad',
                     '12': 'Fasalka 12aad'
                 },
-                inputPlaceholder: 'Dooro fasalka',
+                inputPlaceholder: 'Dooro fasalkaaga',
                 showCancelButton: true,
                 confirmButtonColor: '#28a745',
-                cancelButtonText: 'Ka noqo',
+                cancelButtonText: 'Iska daa',
                 confirmButtonText: 'Beddel'
-            }).then((result) => {
-                if (result.value) {
-                    let newGrade = result.value;
-                    localStorage.setItem('selectedGrade', newGrade);
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Waa lagu guuleystay!',
-                        text: 'Fasalkaaga waxaa loo beddelay ' + newGrade,
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(() => {
-                        location.reload();
-                    });
-                }
             });
+
+            if (newGrade) {
+                localStorage.setItem('selectedGrade', newGrade);
+                document.getElementById('gradeDisplay').innerText = "Fasalka " + newGrade + "aad";
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Waa la beddelay!',
+                    text: `Hadda waxaad arki doontaa xogta Fasalka ${newGrade}aad`,
+                    confirmButtonColor: '#28a745'
+                }).then(() => {
+                    location.reload();
+                });
+            }
         }
 
         // Soo rar macluumaadka markii boggu kaco
         window.onload = function () {
-            // 1. Magaca User-ka
-            let userName = localStorage.getItem('fullname') || "Arday Soomaaliyeed";
-            document.getElementById('userNameDisplay').innerText = "Soo-dhawow: " + userName;
+            // 1. Soo rar Magaca (Haddii uusan oolin localStorage, "Arday" ayuu ahaanayaa)
+            let storedName = localStorage.getItem('username') || "Arday";
+            document.getElementById('userNameDisplay').innerText = "Soo-dhawow: " + storedName;
 
-            // 2. Sawirka Profile-ka (Haddii uu jiro mid la kaydiyay)
-            let userImg = localStorage.getItem('userProfileImg');
-            if (userImg) {
-                document.getElementById('userProfileImage').src = userImg;
-            }
+            // 2. Soo rar Sawirka (Haddii uusan oolin, kii default-ka ahaa)
+            let storedImage = localStorage.getItem('userProfile') || "107621.jpg";
+            document.getElementById('userProfileImage').src = storedImage;
 
-            // 3. Fasalka hadda jira
+            // 3. Soo rar Fasalka
             let currentGrade = localStorage.getItem('selectedGrade') || "8";
             document.getElementById('gradeDisplay').innerText = "Fasalka " + currentGrade + "aad";
         }
