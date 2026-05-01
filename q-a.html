@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q&A - Grade 8 Hub</title>
+    <title>Q&A - Grade Hub</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -289,7 +289,7 @@
         <ul class="sidebar-menu">
             <li onclick="window.location.href='dashboard.html'"><i class="fas fa-home"></i> Dashboard</li>
             <li onclick="window.location.href='books.html'"><i class="fas fa-book"></i> Buugaagta PDF</li>
-            <li style="background: var(--qa-purple);"><i class="fas fa-comments"></i> Su'aalo &Jawaabo</li>
+            <li style="background: var(--qa-purple);"><i class="fas fa-comments"></i> Su'aalo & Jawaabo</li>
             <li onclick="window.location.href='exams.html'"><i class="fas fa-pen-alt"></i> Imtixaannada</li>
             <!-- <hr> -->
             <li style="margin-top: auto;" onclick="logout()"><i class="fas fa-sign-out-alt"></i>
@@ -321,7 +321,7 @@
         <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Dib u noqo Dashboard</a>
 
         <div class="header-section">
-            <h1><i class="fas fa-question-circle"></i> Su'aalaha iyo Jawaabaha</h1>
+            <h1 id="qaTitle"><i class="fas fa-question-circle"></i> Su'aalaha iyo Jawaabaha</h1>
             <p>Dooro maadada aad rabto inaad akhriso su'aalaheeda</p>
         </div>
 
@@ -329,42 +329,9 @@
             <input type="text" id="searchInput" placeholder="Raadi maado (Tusaale: English)..." onkeyup="filterQA()">
         </div>
 
+        <!-- Halkan waxaa si Dynamic ah ugu soo dhacaya su'aalaha -->
         <div class="qa-grid" id="qaList">
-            <!-- Maadada 1 -->
-            <div class="qa-card" onclick="openBook('islamic_qa.pdf', 'Islamic Q&A')">
-                <div class="qa-icon"><i class="fas fa-mosque"></i></div>
-                <div class="qa-info">
-                    <h3>Tarbiyo Islaami</h3>
-                    <p>Su'aalo iyo Jawaabo dhammaystiran</p>
-                </div>
-            </div>
 
-            <!-- Maadada 2 -->
-            <div class="qa-card" onclick="openBook('math_qa.pdf', 'Math Q&A')">
-                <div class="qa-icon"><i class="fas fa-calculator"></i></div>
-                <div class="qa-info">
-                    <h3>Xisaab (Math)</h3>
-                    <p>Su'aalaha Cutubyada 1-8</p>
-                </div>
-            </div>
-
-            <!-- Maadada 3 -->
-            <div class="qa-card" onclick="openBook('science_qa.pdf', 'Science Q&A')">
-                <div class="qa-icon"><i class="fas fa-flask"></i></div>
-                <div class="qa-info">
-                    <h3>Saynis (Science)</h3>
-                    <p>Su'aalaha muhiimka ah ee sanadka</p>
-                </div>
-            </div>
-
-            <!-- Maadada 4 -->
-            <div class="qa-card" onclick="openBook('english_qa.pdf', 'English Q&A')">
-                <div class="qa-icon"><i class="fas fa-language"></i></div>
-                <div class="qa-info">
-                    <h3>English Language</h3>
-                    <p>Grammar and Vocabulary Questions</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -375,7 +342,82 @@
             document.getElementById('overlay').classList.toggle('active');
         }
 
-        // Function-ka raadinta (Search)
+        // Hel fasalka uu ardaygu soo doortay (LocalStorage)
+        const selectedGrade = localStorage.getItem('selectedGrade') || "8";
+        document.getElementById('qaTitle').innerHTML = `<i class="fas fa-question-circle"></i> Su'aalaha Fasalka ${selectedGrade}`;
+
+        // Database-ka Su'aalaha & Jawaabaha ee Fasallada
+        const qaData = {
+            "6": [
+                { name: "Tarbiyo", icon: "fa-mosque", file: "g6_tarbiyo_qa.pdf", desc: "Su'aalo iyo Jawaabo dhammaystiran" },
+                { name: "Social Science", icon: "fa-users", file: "g6_social_qa.pdf", desc: "Su'aalaha Taariikhda & Juqraafiga" },
+                { name: "Science", icon: "fa-flask", file: "g6_science_qa.pdf", desc: "Su'aalaha muhiimka ah ee sanadka" }
+            ],
+            "7": [
+                { name: "Chemistry", icon: "fa-vial", file: "g7_chem_qa.pdf", desc: "Su'aalaha Kimistariga" },
+                { name: "Physics", icon: "fa-bolt", file: "g7_phys_qa.pdf", desc: "Su'aalaha Fiisigiska" },
+                { name: "Biology", icon: "fa-leaf", file: "g7_bio_qa.pdf", desc: "Su'aalaha Bayoolojiga" },
+                { name: "Math", icon: "fa-calculator", file: "g7_math_qa.pdf", desc: "Su'aalaha Xisaabta" },
+                { name: "Technology", icon: "fa-microchip", file: "g7_tech_qa.pdf", desc: "Su'aalaha Tiknoolajiyadda" },
+                { name: "Business", icon: "fa-chart-line", file: "g7_business_qa.pdf", desc: "Su'aalaha Ganacsiga" }
+            ],
+            "8": [
+                { name: "Tarbiyo Islaami", icon: "fa-mosque", file: "islamic_qa.pdf", desc: "Su'aalo iyo Jawaabo dhammaystiran" },
+                { name: "Xisaab (Math)", icon: "fa-calculator", file: "math_qa.pdf", desc: "Su'aalaha Cutubyada 1-8" },
+                { name: "Saynis (Science)", icon: "fa-flask", file: "science_qa.pdf", desc: "Su'aalaha muhiimka ah ee sanadka" },
+                { name: "English Language", icon: "fa-language", file: "english_qa.pdf", desc: "Grammar and Vocabulary Questions" }
+            ],
+            "9": [
+                { name: "Chemistry", icon: "fa-vial", file: "g9_chem_qa.pdf", desc: "Su'aalaha Kimistariga" },
+                { name: "Physics", icon: "fa-bolt", file: "g9_phys_qa.pdf", desc: "Su'aalaha Fiisigiska" },
+                { name: "Math", icon: "fa-square-root-alt", file: "g9_math_qa.pdf", desc: "Su'aalaha Xisaabta" }
+            ],
+            "10": [
+                { name: "Chemistry", icon: "fa-vial", file: "g10_chem_qa.pdf", desc: "Su'aalaha Kimistariga" },
+                { name: "Physics", icon: "fa-atom", file: "g10_phys_qa.pdf", desc: "Su'aalaha Fiisigiska" },
+                { name: "Biology", icon: "fa-dna", file: "g10_bio_qa.pdf", desc: "Su'aalaha Bayoolojiga" }
+            ],
+            "11": [
+                { name: "Chemistry", icon: "fa-flask", file: "g11_chem_qa.pdf", desc: "Su'aalaha Kimistariga" },
+                { name: "Physics", icon: "fa-bolt", file: "g11_phys_qa.pdf", desc: "Su'aalaha Fiisigiska" },
+                { name: "Math", icon: "fa-calculator", file: "g11_math_qa.pdf", desc: "Su'aalaha Xisaabta" }
+            ],
+            "12": [
+                { name: "Biology", icon: "fa-dna", file: "g12_bio_qa.pdf", desc: "Su'aalaha Bayoolojiga" },
+                { name: "Physics", icon: "fa-atom", file: "g12_phys_qa.pdf", desc: "Su'aalaha Fiisigiska" },
+                { name: "Chemistry", icon: "fa-vial", file: "g12_chem_qa.pdf", desc: "Su'aalaha Kimistariga" },
+                { name: "English", icon: "fa-book", file: "g12_eng_qa.pdf", desc: "Su'aalaha Ingiriisiga" },
+                { name: "Soomaali", icon: "fas fa-pen-nib", file: "g12_soom_qa.pdf", desc: "Su'aalaha Afsoomaaliga" }
+            ]
+        };
+
+        // Function-ka soo daabacaya su'aalaha fasalka la doortay
+        function loadQA() {
+            const container = document.getElementById('qaList');
+            const qas = qaData[selectedGrade] || [];
+
+            container.innerHTML = ""; // Nadiifi meesha inta aysan wax soo saarin
+
+            if (qas.length === 0) {
+                container.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #666;">Wali laguma darin su'aalaha fasalkan.</p>`;
+                return;
+            }
+
+            qas.forEach(qa => {
+                const card = `
+                    <div class="qa-card" onclick="openBook('${qa.file}', '${qa.name} Q&A')">
+                        <div class="qa-icon"><i class="fas ${qa.icon}"></i></div>
+                        <div class="qa-info">
+                            <h3>${qa.name}</h3>
+                            <p>${qa.desc}</p>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Function-ka raadinta (Search) ee asalka ahaa
         function filterQA() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('qa-card');
@@ -390,12 +432,15 @@
             }
         }
 
-        // Isticmaal function-ka openBook ee ku jira app.js (ama kan)
+        // Function-ka fura buugga
         function openBook(fileName, displayName) {
             const file = encodeURIComponent(fileName);
             const name = encodeURIComponent(displayName);
             window.location.href = `view-pdf.html?file=${file}&name=${name}`;
         }
+
+        // Daar shaqada markuu boggu kaco
+        window.onload = loadQA;
     </script>
 </body>
 
